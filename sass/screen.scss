@@ -3,4 +3,19 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
-@import "_normalize.scss";
+@import "_normalize";
+@import "compass";
+
+@mixin css3-gradients-vertical($top-color, $bottom-color) {
+    // needs latest Compass, add '@import "compass"' to your scss
+    background-color: $top-color; // Old browsers
+    @include filter-gradient($top-color, $bottom-color, vertical); // IE6-8
+    // IE9 SVG, needs conditional override of 'filter' to 'none'
+    $experimental-support-for-svg: true;
+    background-image: -ms-linear-gradient(top, $top-color 0%, #000000 100%);
+    @include background-image(linear-gradient(top,  $top-color 0%,$bottom-color 100%));
+}
+
+body {
+    @include css3-gradients-vertical(#cccccc, #333333);
+}
