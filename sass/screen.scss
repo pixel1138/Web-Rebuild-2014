@@ -1,10 +1,65 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
-@import "_normalize";
-@import "compass";
+
+/* color scheme: http://www.colourlovers.com/palette/292482/Terra */
+
+@import "normalize", "h5bp", "compass";
+
+$large-desktop: 1200px;
+$desktop: 1199px;
+$tablet: 767px;
+$phone: 480px;
+
+$terra-terra: #e8ddcd;
+$terra-terra-light: #f3ede4;
+$terra-terra-dark: #c0b6a7;
+$terra: #cdb380;
+$terra-light: #ffde9f;
+$terra-dark: #96825c;
+$acqua: #036564;
+$acqua-light: #058989;
+$acqua-dark: #023F3F;
+$profonda: #033649;
+$profonda-light: #055371;
+$profonda-dark: #02232f;
+$abisso: #031634;
+$abisso-light: #052454;
+$abisso-extra-light: #053582;
+
+$body-background: $abisso;
+
+$nav-background: $acqua;
+$nav-head-color: $acqua-dark;
+$nav-link-color: $terra-terra;
+$nav-border-color: $acqua-dark;
+
+$main-content-background: $terra-terra-light;
+$top-bar-background: $terra-terra;
+$nav-icon: $terra-terra-dark;
+$nav-icon-text: $terra-terra-dark;
+
+@font-face {
+    font-family: 'QS Light';
+    src: url('quicksand-light-webfont.eot');
+    src: url('quicksand-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('quicksand-light-webfont.woff') format('woff'),
+         url('quicksand-light-webfont.ttf') format('truetype'),
+         url('quicksand-light-webfont.svg#quicksandlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'Cantarell';
+    src: url('Cantarell-Regular-webfont.eot');
+    src: url('Cantarell-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Cantarell-Regular-webfont.woff') format('woff'),
+         url('Cantarell-Regular-webfont.ttf') format('truetype'),
+         url('Cantarell-Regular-webfont.svg#cantarellregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 @mixin css3-gradients-vertical($top-color, $bottom-color) {
     // needs latest Compass, add '@import "compass"' to your scss
@@ -12,10 +67,504 @@
     @include filter-gradient($top-color, $bottom-color, vertical); // IE6-8
     // IE9 SVG, needs conditional override of 'filter' to 'none'
     $experimental-support-for-svg: true;
-    background-image: -ms-linear-gradient(top, $top-color 0%, #000000 100%);
     @include background-image(linear-gradient(top,  $top-color 0%,$bottom-color 100%));
+    background-image: -ms-linear-gradient(top, $top-color 0%, $bottom-color 100%);
+}
+
+@mixin css3-gradients-horizontal($left-color, $right-color) {
+    background-color: $left-color;
+    @include filter-gradient($left-color, $right-color, horizontal);
+    $experimental-support-for-svg: true;
+    @include background-image(linear-gradient(left, $left-color 0%, $right-color 100%));
+    background-image: -ms-linear-gradient(left, $left-color 0%, $right-color 100%);
+}
+
+%clearfix {
+    &:before, &:after {
+        content: " "; display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+%full-height {
+    height: 100%;
+}
+
+html {
+    @extend %full-height;
 }
 
 body {
-    @include css3-gradients-vertical(#cccccc, #333333);
+    background: $body-background;
+    @extend %full-height;
 }
+
+.content-wrap {
+    background: #ffffff;
+    overflow-y: scroll;
+    @extend %full-height;
+}
+
+#container {
+    position: relative;
+    -webkit-perspective: 1500px;
+    -webkit-perspective-origin: 0% 50%;
+    overflow: hidden;
+    @extend %full-height;
+}
+
+.pusher {
+    position: relative;
+    left: 0;
+    z-index: 9;
+    -webkit-transition: -webkit-transform 0.5s 250ms;
+    -webkit-transform-origin: 100% 50%;
+    -webkit-transform-style: preserve-3d;
+    @extend %full-height;
+    &:after {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        width: 0;
+        height: 0;
+        //@include filter-gradient(#4d000000, #4d666666, horizontal); // IE6-8
+        $experimental-support-for-svg: true;
+        @include background-image(linear-gradient(left,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 35%,rgba(102,102,102,0.3) 100%));
+        content: '';
+        opacity: 0;
+        -webkit-transition: opacity 750ms, width 50ms 750ms, height 50ms 750ms;
+    }
+}
+
+nav {
+    position: absolute;
+    width: 300px;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: $nav-background;
+    border-right: $nav-border-color 1px solid;
+    box-shadow: 100px 0px 75px 0px rgba(0,0,0,0.3);
+    -webkit-transition: all 500ms cubic-bezier(0.275, 0.585, 0.520, 1); /* older webkit */
+    -webkit-transition: all 500ms cubic-bezier(0.275, 0.585, 0.520, 1.650); 
+    -webkit-transform-style: preserve-3d;
+    -webkit-transform-origin: 0% 50%;
+    -webkit-transform: rotateY(90deg);
+    //-webkit-transition: all 0.5s;
+    //-webkit-transform: translate3d(-100%, 0, 0);
+    @extend %full-height;
+    @media only screen and (max-width: $tablet) {
+        width: 250px;
+    }
+    @media only screen and (max-width: $phone) {
+        width: 200px;
+    }
+}
+
+.menu-active {
+    .pusher {
+        -webkit-transition: -webkit-transform 0.5s;
+        -webkit-transform: rotateY(-15deg);
+        &:after {
+            width: 100%;
+            height: 100%;
+            -webkit-transition: opacity 500ms;
+            opacity: 1;
+        }
+    }
+    
+    nav {
+        -webkit-transition: all 500ms 300ms cubic-bezier(0.275, 0.585, 0.520, 1); /* older webkit */
+        -webkit-transition: all 500ms 300ms cubic-bezier(0.275, 0.585, 0.520, 1.650); 
+        -webkit-transform: rotateY(0deg);
+        //-webkit-transform: translate3d(0,0,0);
+    }
+}
+
+nav.effect {
+    visibility: hidden;
+}
+
+//Navigation Sidebar Sytles
+
+.nav-list {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+.page-button-bar {
+    width: 100%;
+    background: $acqua-dark;
+    box-shadow: 0 -2px 10px 0px rgba(0,0,0,0.2) inset;
+    @extend %clearfix;
+}
+
+#page-button {
+    display: block;
+    margin: 0px 1em 0px 0px;
+    padding: .2em 0px .4em;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.2em;
+    color: $acqua;
+    font-weight: bold;
+    float: right;
+    vertical-align: middle;
+    .page-arrow {
+        font-size: 1.5em;
+    }
+}
+
+.nav-head {
+    margin: 0px auto;
+    padding: .6em;
+    font-size: 2em;
+    color: $nav-head-color;
+    text-align: center;
+    cursor: default;
+    @extend %heading-font;
+    .nav-arrow {
+        cursor: pointer;
+    }
+    @media only screen and (max-width: $phone) {
+        font-size: 1.5em;
+    }
+}
+
+.nav-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    padding: 1em 1em 1em 1.5em;
+    margin: 0px;
+    color: $nav-link-color;
+    border-bottom: $nav-border-color 1px solid;
+    letter-spacing: 2px;
+    &:hover {
+        background: $nav-border-color;
+        box-shadow: 0px -2px 10px rgba(0,0,0,0.3) inset;
+    }
+}
+
+.nav-list li:first-child a {
+    border-top: $nav-border-color 1px solid;
+}
+
+//Main content Styles
+
+.content {
+    background: $main-content-background;
+    p {
+        font-family: 'Cantarell', sans-serif;
+        color: $terra-dark;
+    }
+}
+
+.nav-button-bar {
+    width: 100%;
+    @include css3-gradients-vertical($terra-terra-light, $terra-terra);
+    box-shadow: 0 -2px 10px 0px rgba(0,0,0,0.2) inset;
+    -webkit-transition: box-shadow 300ms linear;
+    &.stuck {
+        position: fixed;
+        z-index: 99;
+        box-shadow: none; /*0 2px 10px rgba(0,0,0,0.2);*/
+    }
+}
+
+.nav-button {
+    margin: 0px;
+    padding: .6em 0px;
+    vertical-align: middle;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: $nav-icon-text;
+    .nav-button-icon {
+        margin: 0px 7px;
+        padding: 0px;
+        display: inline-block;
+        li {
+            display: block;
+            width: 20px;
+            height: 3px;
+            background: $nav-icon;
+            margin: 0;
+            &:nth-child(2) {
+                margin: .18em 0 .16em;
+            }
+        }
+    }
+    
+}
+
+%responsive-width {
+    margin: 0px auto;
+    @media only screen and (min-width: $large-desktop) {
+        width: 75%;
+    }
+    @media only screen and (max-width: $desktop) {
+        width: 90%;
+    }
+}
+
+%heading-font {
+    font-family: 'QS Light', sans-serif;
+    font-weight: bold;
+}
+
+header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    @extend %responsive-width;
+}
+
+#logo {
+    width: 180px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+    @media only screen and (max-width: 1000px) {
+        width: 20.3%;
+    }
+    @media only screen and (max-width: $tablet) {
+        width: 100px;
+    }
+}
+
+.hgroup {
+    display: inline-block;
+    vertical-align: middle;
+    @media only screen and (max-width: 1000px) {
+        width: 70.5%;
+    }
+    @media only screen and (max-width: 450px) {
+        width: 65%;
+    }
+}
+
+.site-title {
+    font-size: 2.5em;
+    color: $profonda;
+    font-variant: small-caps;
+    @extend %heading-font;
+    margin: .5em 0px 0px;
+    @media only screen and (max-width: 1000px) {
+        font-size: 2em;
+    }
+    @media only screen and (max-width: 880px) {
+        font-size: 1.75em;
+    }
+    @media only screen and (max-width: 780px) {
+        font-size: 1.5em;
+    }
+    @media only screen and (max-width: 670px) {
+        font-size: 1.25em;
+    }
+}
+
+.site-tag {
+    font-size: 1.75em;
+    color: $terra-dark;
+    text-transform: uppercase;
+    @extend %heading-font;
+    margin: 0px;
+    @media only screen and (max-width: 1000px) {
+        font-size: 1.25em;
+    }
+    @media only screen and (max-width: 880px) {
+        font-size: 1em;
+    }
+    @media only screen and (max-width: 780px) {
+        font-size: 0.75em;
+    }
+    @media only screen and (max-width: 550px) {
+        display: none;
+    }
+}
+
+.header-bar-alt {
+    margin-left: 1%;
+    display: inline-block;
+    opacity: 0;
+    -webkit-transition: opacity 300ms linear;
+    &.visible {
+        opacity: 1;
+    }
+}
+
+#logo-alt {
+    width: 35px;
+    display: inline-block;
+    vertical-align: middle;
+    opacity: 0.65;
+    @media only screen and (max-width: 480px) {
+        display: none;
+    }
+}
+
+.site-title-alt {
+    display: inline-block;
+    margin: 0px;
+    vertical-align: middle;
+    @extend %heading-font;
+    color: $terra-terra-dark;
+    font-size: 1.2em;
+    @media only screen and (max-width: 530px) {
+        font-size: .75em;
+    }
+}
+
+#main-wrap {
+    @extend %responsive-width;
+    @extend %clearfix;
+}
+
+main, aside {
+    float: right;
+}
+
+main {
+    width: 65%;
+    padding: 0 0 0 5%;
+    @media only screen and (max-width: $tablet) {
+        width: 100%;
+    }
+}
+
+.article-title {
+    font-family: 'Cantarell', sans-serif;
+    font-size: 1.5em;
+    color: $acqua;
+}
+
+.main-title {
+    @extend .article-title;
+}
+
+main hr {
+    margin: 2em 5%;
+    border-top-color: $terra-terra-dark;
+}
+
+aside {
+    width: 28%;
+    padding: 0;
+    margin: 25px 0px;
+    box-shadow: -17px 0px 17px -15px rgba(0,0,0,0.3);
+    @media only screen and (max-width: $tablet) {
+        display: none;
+    }
+}
+
+p.side-text {
+    position: relative;
+    width: 80%;
+    padding: 10%;
+    margin: 45px 0px;
+    margin-left: -15px;
+    background: $terra;
+    color: $terra-terra-light;
+    /*&:before {
+        content: "";
+        position: absolute;
+        border-left: 15px solid transparent;
+        border-bottom: 15px solid $terra-dark;
+        top: -15px;
+        left: 0px;
+    }*/
+    &:after {
+        content: "";
+        position: absolute;
+        border-left: 15px solid transparent;
+        border-top: 15px solid $terra-dark;
+        bottom: -15px;
+        left: 0px;
+    }
+}
+
+.article-list-title {
+    @extend .article-title;
+    font-size: 1.17em;
+    color: $terra-dark;
+    margin-top: 1.5em;
+    margin-bottom: .75em;
+}
+
+.article-list {
+    padding: 0px;
+    color: $terra-dark;
+    list-style: none;
+}
+
+footer {
+    @include css3-gradients-vertical($terra-terra-light, $terra-terra);
+    box-shadow: 0 2px 10px 0px rgba(0,0,0,0.2) inset;
+    padding: 30px 0 10px;
+    margin-top: 50px;
+    ul {
+        padding: 0px;
+        list-style: none;
+        font-family: 'Cantarell', sans-serif;
+        font-size: .85em;
+        font-style: normal;
+        color: $terra-dark;
+        width: 90%;
+        margin: 1em auto;
+        text-align: center;
+        li {
+            display: inline-block;
+            padding-right: .85em;
+            margin-left: .5em;
+            border-right: 1px solid $terra-dark;
+            @media only screen and (max-width: $tablet) {
+                display: block;
+                margin-left: 0px;
+                padding-right: 0px;
+                border: none;
+            }
+            &:first-child {
+                margin-left: 0px;
+            }
+            &:last-child {
+                padding-right: 0px;
+                border-right: none;
+            }
+            a {
+                color: $acqua;
+                text-decoration: none;
+                 &:hover {
+                    color: $terra-dark;
+                }
+            }
+        }
+    }
+}
+
+address {
+    margin-bottom: 30px;
+    ul {
+            font-size: 1em;   
+    }
+}
+
+/*address {
+    @extend %responsive-width;
+    padding: 2em 0;
+    box-shadow: -17px 0px 17px -15px rgba(0,0,0,0.3), 17px 0px 17px -15px rgba(0,0,0,0.3);
+    ul {
+        background: $acqua;
+        padding: 1em 0;
+        width: 103%;
+        margin-left: -1.5%;
+        border-top: 3px solid $acqua-dark;
+        border-bottom: 3px solid $acqua-dark;
+    }
+}*/
